@@ -1,6 +1,6 @@
 {
   "name": "snax",
-  "version": "0.4.3",
+  "version": "0.4.5",
   "description": "React components and utilities I find useful",
   "main": "lib",
   "directories": {
