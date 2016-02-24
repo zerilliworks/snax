@@ -4,6 +4,7 @@ import _ from 'lodash'
 import PresentStateComponent from './present_state'
 import EmptyStateComponent from './empty_state'
 import LoadingStateComponent from './loading_state'
+import ErrorStateComponent from './error_state'
 
 const isNotEmpty = _.negate(_.isEmpty)
 
@@ -18,8 +19,12 @@ const LoadingContainer = React.createClass({
     const loadingChild = _(React.Children.toArray(this.props.children))
       .filter(child => child.type.prototype == LoadingStateComponent.prototype)
       .first()
+    const errorChild = _(React.Children.toArray(this.props.children))
+      .filter(child => child.type.prototype == LoadingStateComponent.prototype)
+      .first()
 
     const isLoading = (isNotEmpty(loadingChild) || this.props.useLoader) && (this.props.loading || _.isUndefined(this.props.content))
+    const isError = this.props.error || _.isError(this.props.content)
 
     let isEmpty
 
@@ -30,7 +35,10 @@ const LoadingContainer = React.createClass({
       isEmpty = _.isEmpty(this.props.content)
     }
 
-    if(isEmpty) {
+    if(isError) {
+      return errorChild || <ErrorStateComponent />
+    }
+    else if(isEmpty) {
       if(isLoading) {
         return loadingChild || <LoadingStateComponent />
       }
@@ -54,5 +62,6 @@ LoadingContainer.defaultProps = {
 export const PresentState = PresentStateComponent
 export const EmptyState = EmptyStateComponent
 export const LoadingState = LoadingStateComponent
+export const ErrorState = ErrorStateComponent
 
 export default LoadingContainer

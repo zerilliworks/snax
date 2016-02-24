@@ -92,6 +92,46 @@ describe('LoadingContainer', () => {
     expect(rendered).to.not.contain("Empty")
   })
 
+  it('shows error state when errored', () => {
+    const Component1 = (
+      <LoadingContainer content={[]} error={true}>
+        <PresentState>
+          <div>
+            <h1>Present</h1>
+            <p>Oh, it's here all right.</p>
+          </div>
+        </PresentState>
+        <EmptyState>
+          <h1>Empty</h1>
+        </EmptyState>
+      </LoadingContainer>
+    )
+
+    const rendered1 = ReactDOMServer.renderToStaticMarkup(Component1)
+    expect(rendered1).to.contain("The server responded with an error")
+    expect(rendered1).to.not.contain("Empty")
+    expect(rendered1).to.not.contain("Present")
+
+    const Component2 = (
+      <LoadingContainer content={new Error("Could not load this")}>
+        <PresentState>
+          <div>
+            <h1>Present</h1>
+            <p>Oh, it's here all right.</p>
+          </div>
+        </PresentState>
+        <EmptyState>
+          <h1>Empty</h1>
+        </EmptyState>
+      </LoadingContainer>
+    )
+
+    const rendered2 = ReactDOMServer.renderToStaticMarkup(Component2)
+    expect(rendered2).to.contain("The server responded with an error")
+    expect(rendered2).to.not.contain("Empty")
+    expect(rendered2).to.not.contain("Present")
+  })
+
   it('obeys manual loading setting', () => {
     const Component1 = (
       <LoadingContainer content={[1, 2, 3]} useLoader loading={true}>
