@@ -2,7 +2,7 @@ import chai, {expect, assert} from 'chai'
 import React from 'react'
 import ReactTestUtil from 'react-addons-test-utils'
 import ReactDOMServer from 'react-dom/server'
-import LoadingContainer, {LoadingState, PresentState, EmptyState} from 'containers/loading'
+import LoadingContainer, {LoadingState, PresentState, EmptyState, ErrorState} from 'containers/loading'
 
 describe('LoadingContainer', () => {
 
@@ -95,6 +95,9 @@ describe('LoadingContainer', () => {
   it('shows error state when errored', () => {
     const Component1 = (
       <LoadingContainer content={[]} error={true}>
+        <ErrorState>
+          <h1>The server responded with an error</h1>
+        </ErrorState>
         <PresentState>
           <div>
             <h1>Present</h1>
@@ -114,6 +117,7 @@ describe('LoadingContainer', () => {
 
     const Component2 = (
       <LoadingContainer content={new Error("Could not load this")}>
+
         <PresentState>
           <div>
             <h1>Present</h1>

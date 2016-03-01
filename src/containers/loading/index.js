@@ -20,7 +20,7 @@ const LoadingContainer = React.createClass({
       .filter(child => child.type.prototype == LoadingStateComponent.prototype)
       .first()
     const errorChild = _(React.Children.toArray(this.props.children))
-      .filter(child => child.type.prototype == LoadingStateComponent.prototype)
+      .filter(child => child.type.prototype == ErrorStateComponent.prototype)
       .first()
 
     const isLoading = (isNotEmpty(loadingChild) || this.props.useLoader) && (this.props.loading || _.isUndefined(this.props.content))
